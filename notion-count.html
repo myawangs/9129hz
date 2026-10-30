@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>글자수 세기</title>
+<style>
+:root{--bg:#fff;--fg:#37352f;--muted:#787774;--line:#e3e2e0;--card:#f7f6f3;--accent:#2383e2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#191919;--fg:#e6e6e4;--muted:#9b9a97;--line:#373737;--card:#252525;--accent:#529cca}}
+:root[data-theme="dark"]{--bg:#191919;--fg:#e6e6e4;--muted:#9b9a97;--line:#373737;--card:#252525;--accent:#529cca}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Segoe UI",sans-serif;display:flex;flex-direction:column;gap:10px;padding:12px}
+.stats{flex:none;display:flex;gap:16px;font-size:14px;color:var(--muted)}
+.stats b{color:var(--accent);font-size:16px;font-variant-numeric:tabular-nums}
+textarea{flex:1;min-height:0;width:100%;resize:none;overflow-y:auto;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--fg);font:inherit;font-size:15px;line-height:1.6;padding:12px;outline:none}
+textarea:focus{border-color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="stats">
+  <span>공백 포함 <b id="withSp">0</b>자</span>
+  <span>공백 제외 <b id="noSp">0</b>자</span>
+</div>
+<textarea id="top" placeholder="여기에 입력하면 글자수가 위에 표시됩니다"></textarea>
+<script>
+const box=document.getElementById('top');
+const a=document.getElementById('withSp'),b=document.getElementById('noSp');
+function count(){
+  const t=box.value;
+  a.textContent=Array.from(t).length.toLocaleString();
+  b.textContent=Array.from(t.replace(/\s/g,'')).length.toLocaleString();
+}
+try{box.value=localStorage.getItem('nc_top')||''}catch(e){}
+box.addEventListener('input',()=>{count();try{localStorage.setItem('nc_top',box.value)}catch(e){}});
+count();
+</script>
+</body>
+</html>
